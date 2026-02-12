@@ -42,5 +42,14 @@ namespace API.Controllers
 
             return Ok(data);
         }
+
+        [HttpGet]
+        [Route("previous-condition")]
+        public async Task<IActionResult> GetPreviousCondition()
+        {
+            var data = await _unitOfWork.Repository<PreviousCondition>().GetAllAsync();
+
+            return Ok(data);
+        }
     }
 }
