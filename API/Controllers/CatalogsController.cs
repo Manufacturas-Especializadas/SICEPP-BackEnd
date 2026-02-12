@@ -33,5 +33,14 @@ namespace API.Controllers
 
             return Ok(data);
         }
+
+        [HttpGet]
+        [Route("ReasonRequest")]
+        public async Task<IActionResult> GetReasonRequest()
+        {
+            var data = await _unitOfWork.Repository<ReasonRequest>().GetAllAsync();
+
+            return Ok(data);
+        }
     }
 }
