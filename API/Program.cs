@@ -9,13 +9,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
 var connection = builder.Configuration.GetConnectionString("Connection");
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
     option.UseSqlServer(connection);
 });
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
