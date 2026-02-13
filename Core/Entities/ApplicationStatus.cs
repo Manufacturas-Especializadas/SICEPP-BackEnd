@@ -12,6 +12,6 @@ namespace Core.Entities
 
         public string nameStatus { get; set; } = null!;
 
-        public virtual ICollection<Epp> Epps { get; set; } = new List<Epp>();
+        public virtual ICollection<Store> Stores { get; set; } = new List<Store>();
     }
 }
