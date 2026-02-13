@@ -21,32 +21,26 @@ namespace API.Controllers
         [Route("Create")]
         public async Task<IActionResult> Create(EppDto request)
         {
-            try
+            var newEpp = new Epp
             {
-                var newEpp = new Epp
-                {
-                    Name = request.Name,
-                    Area = request.Area,
-                    Position = request.Position,
-                    Shift = request.Shift,
-                    RequestedQuantity = request.RequestedQuantity,
-                    DeliveryEPPPrevious = request.DeliveryEPPPrevious,
-                    EppTypeId = request.EppTypeId,
-                    SizeId = request.SizeId,
-                    ReasonRequestId = request.ReasonRequestId,
-                    PreviousConditionId = request.PreviousConditionId
-                };
+                Name = request.Name,
+                Area = request.Area,
+                Position = request.Position,
+                Shift = request.Shift,
+                RequestedQuantity = request.RequestedQuantity,
+                DeliveryEPPPrevious = request.DeliveryEPPPrevious,
+                EppTypeId = request.EppTypeId,
+                SizeId = request.SizeId,
+                ReasonRequestId = request.ReasonRequestId,
+                PreviousConditionId = request.PreviousConditionId,
+                createdAt = DateTime.Now
+            };
 
-                await _unitOfWork.Repository<Epp>().AddAsync(newEpp);
+            await _unitOfWork.Repository<Epp>().AddAsync(newEpp);
 
-                await _unitOfWork.SaveAsync();
+            await _unitOfWork.SaveAsync();
 
-                return Ok(newEpp);
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }           
+            return Ok(newEpp);
         }
     }
 }
