@@ -2,6 +2,7 @@
 using Core.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -48,6 +49,34 @@ namespace API.Controllers
         public async Task<IActionResult> GetPreviousCondition()
         {
             var data = await _unitOfWork.Repository<PreviousCondition>().GetAllAsync();
+
+            return Ok(data);
+        }
+
+        [HttpGet]
+        [Route("epp")]
+        public async Task<IActionResult> GetEpp()
+        {
+            var data = await _unitOfWork
+                    .Repository<Epp>()
+                    .Query()
+                    .Select(x => new
+                    {
+                        x.Id,
+                        x.Name,
+                        x.Area,
+                        x.Position,
+                        x.Shift,
+                        EppType = x.EppType.NameType,
+                        Size = x.Size.NameSize,
+                        x.RequestedQuantity,
+                        ReasonRequest = x.ReasonRequest.NameReason,
+                        PreviousCondition = x.PreviousCondition.NameCondition,
+                        x.DeliveryEPPPrevious,
+                        x.createdAt
+                    })
+                    .AsNoTracking()
+                    .ToListAsync();
 
             return Ok(data);
         }
