@@ -43,6 +43,7 @@ namespace Infrastructure.Data
             modelBuilder.Entity<Size>().ToTable("Size");
             modelBuilder.Entity<ReasonRequest>().ToTable("ReasonRequest");
             modelBuilder.Entity<PreviousCondition>().ToTable("PreviousCondition");
+            modelBuilder.Entity<ApplicationStatus>().ToTable("ApplicationStatus");
 
 
             modelBuilder.Entity<EppType>().Property(e => e.NameType).HasColumnName("nameType");
