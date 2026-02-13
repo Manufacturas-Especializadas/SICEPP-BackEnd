@@ -17,6 +17,20 @@ namespace API.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        [HttpGet]
+        [Route("eppByID/{id}")]
+        public async Task<IActionResult> GetEppById(int id)
+        {
+            var epp = await _unitOfWork
+                        .Repository<Epp>()
+                        .GetByIdAsync(id);
+
+            if(epp == null)
+                return NotFound();
+
+            return Ok(epp);
+        }
+
         [HttpPost]
         [Route("Create")]
         public async Task<IActionResult> Create(EppDto request)
