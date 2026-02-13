@@ -22,6 +22,11 @@ namespace Infrastructure.Data
 
         public DbSet<PreviousCondition> PreviousConditions { get; set; }
 
+        public DbSet<Store> Stores { get; set; }
+
+        public DbSet<ApplicationStatus> ApplicationStatuses { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -37,6 +42,41 @@ namespace Infrastructure.Data
                 entity.HasOne(d => d.EppType)
                     .WithMany(p => p.Epps)
                     .HasForeignKey(d => d.EppTypeId);
+            });
+
+            modelBuilder.Entity<Store>(entity =>
+            {
+                entity.ToTable("Store");
+
+                entity.Property(e => e.DeliveryDate)
+                    .HasColumnName("deliveryDate");
+
+                entity.Property(e => e.AuthorizedBy)
+                    .HasColumnName("authorizedBy")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.LastDelivery)
+                    .HasColumnName("lastDelivery");
+
+                entity.Property(e => e.ReplacementPolicy)
+                    .HasColumnName("replacementPolicy");
+
+                entity.Property(e => e.StatusId)
+                    .HasColumnName("statusId");
+
+                entity.Property(e => e.DeliveryConfirmation)
+                    .HasColumnName("deliveryConfirmation");
+
+                entity.Property(e => e.EppId)
+                    .HasColumnName("eppId");
+
+                entity.HasOne(d => d.ApplicationStatus)
+                    .WithMany()
+                    .HasForeignKey(d => d.StatusId);
+
+                entity.HasOne(d => d.Epp)
+                    .WithOne(e => e.Store)
+                    .HasForeignKey<Store>(d => d.EppId);
             });
 
             modelBuilder.Entity<EppType>().ToTable("EppType");
