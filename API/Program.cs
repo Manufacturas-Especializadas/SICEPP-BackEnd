@@ -40,6 +40,8 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowSpecificOrigins");
 
+app.UseExceptionHandler("/error");
+
 app.UseAuthorization();
 
 app.MapControllers();

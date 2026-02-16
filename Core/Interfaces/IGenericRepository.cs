@@ -12,6 +12,8 @@ namespace Core.Interfaces
 
         Task<IEnumerable<T>> GetAllAsync();
 
+        IQueryable<T> Query();
+
         Task AddAsync(T entity);
     }
 }

@@ -27,6 +27,11 @@ namespace Infrastructure.Data
             return await _context.Set<T>().ToListAsync();
         }
 
+        public IQueryable<T> Query()
+        {
+            return _context.Set<T>().AsQueryable();
+        }
+
         public async Task AddAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);

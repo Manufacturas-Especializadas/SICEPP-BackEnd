@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Core.Entities
 {
@@ -31,6 +32,8 @@ namespace Core.Entities
 
         public int PreviousConditionId { get; set; }
 
+        public DateTime? createdAt { get; set; }
+
 
         public virtual EppType EppType { get; set; } = null!;
 
@@ -39,5 +42,7 @@ namespace Core.Entities
         public virtual ReasonRequest ReasonRequest { get; set; } = null!;
 
         public virtual PreviousCondition PreviousCondition { get; set; } = null!;
+
+        public Store Store { get; set; }
     }
 }
