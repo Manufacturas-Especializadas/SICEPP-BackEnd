@@ -27,6 +27,6 @@ namespace Core.Entities
 
         public Epp Epp { get; set; }
 
-        public ApplicationStatus ApplicationStatus { get; set; } = new();
+        public ApplicationStatus? ApplicationStatus { get; set; }
     }
 }
