@@ -71,8 +71,9 @@ namespace Infrastructure.Data
                     .HasColumnName("eppId");
 
                 entity.HasOne(d => d.ApplicationStatus)
-                    .WithMany()
-                    .HasForeignKey(d => d.StatusId);
+                    .WithMany(a => a.Stores)
+                    .HasForeignKey(d => d.StatusId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(d => d.Epp)
                     .WithOne(e => e.Store)
