@@ -76,6 +76,7 @@ namespace API.Controllers
                         x.Area,
                         x.Position,
                         x.Shift,
+                        Status = x.Store.ApplicationStatus!.nameStatus ?? "Pendiente",
                         EppType = x.EppType.NameType,
                         Size = x.Size.NameSize,
                         x.RequestedQuantity,
