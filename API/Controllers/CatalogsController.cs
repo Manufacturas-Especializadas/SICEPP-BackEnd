@@ -54,6 +54,15 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Route("status")]
+        public async Task<IActionResult> GetStatus()
+        {
+            var data = await _unitOfWork.Repository<ApplicationStatus>().GetAllAsync();
+
+            return Ok(data);
+        }
+
+        [HttpGet]
         [Route("epp")]
         public async Task<IActionResult> GetEpp()
         {
