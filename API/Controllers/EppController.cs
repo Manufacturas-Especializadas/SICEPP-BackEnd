@@ -3,6 +3,7 @@ using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -29,6 +30,48 @@ namespace API.Controllers
                 return NotFound();
 
             return Ok(epp);
+        }
+
+        [HttpGet]
+        [Route("{id}/details")]
+        public async Task<IActionResult> GetEppDetails(int id)
+        {
+            var result = await _unitOfWork
+                        .Repository<Epp>()
+                        .Query()
+                        .Where(x => x.Id == id)
+                        .Select(x => new EppDetailWithStoreDto
+                        {
+                            Id = x.Id,
+                            Name = x.Name,
+                            Area = x.Area,
+                            Position = x.Position,
+                            Shift = x.Shift,
+                            RequestedQuantity = x.RequestedQuantity,
+                            DeliveryEPPPrevious = x.DeliveryEPPPrevious,
+                            CreatedAt = x.createdAt,
+
+                            EppType = x.EppType.NameType,
+                            Size = x.Size.NameSize,
+                            ReasonRequest = x.ReasonRequest.NameReason,
+                            PreviousCondition = x.PreviousCondition.NameCondition,
+
+                            Store = x.Store == null ? null : new StoreDetailDto
+                            {
+                                DeliveryDate = x.Store.DeliveryDate,
+                                AuthorizedBy = x.Store.AuthorizedBy,
+                                LastDelivery = x.Store.LastDelivery,
+                                ReplacementPolicy = x.Store.ReplacementPolicy,
+                                StatusId = x.Store.StatusId,
+                                DeliveryConfirmation = x.Store.DeliveryConfirmation
+                            }
+                        })
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync();
+
+            if (result == null) return NotFound();
+
+            return Ok(result);
         }
 
         [HttpPost]
