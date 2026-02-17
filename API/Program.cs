@@ -1,5 +1,7 @@
+using Application.Features.Reports;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Reports;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +31,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IMonthlyReportService, MonthlyReportService>();
 
 var app = builder.Build();
 
