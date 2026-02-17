@@ -1,4 +1,5 @@
-﻿using Core.Entities;
+﻿using Application.Features.Reports;
+using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,9 +13,12 @@ namespace API.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public MonthlyReportsController(IUnitOfWork unitOfWork)
+        private readonly IMonthlyReportService _reportService;
+
+        public MonthlyReportsController(IUnitOfWork unitOfWork, IMonthlyReportService reportService)
         {
             _unitOfWork = unitOfWork;
+            _reportService = reportService;
         }
 
         [HttpGet]
@@ -45,6 +49,26 @@ namespace API.Controllers
             });
 
             return Ok(result);
-        }        
+        }
+
+        [HttpPost]
+        [Route("GenerateMonthlyReport")]
+        public async Task<IActionResult> GenerateMonthlyReport([FromBody] MonthlyReportDto dto)
+        {
+            try
+            {
+                var result = await _reportService.GenerateMonthlyReportAsync(dto);
+
+                return File(
+                    result.Content,
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    result.FileName
+                );
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }            
+        }
     }
 }
