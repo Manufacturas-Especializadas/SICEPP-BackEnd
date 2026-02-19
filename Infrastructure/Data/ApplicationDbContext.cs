@@ -40,7 +40,11 @@ namespace Infrastructure.Data
                 entity.Property(e => e.Area).HasColumnName("area").HasMaxLength(30);
                 entity.Property(e => e.Position).HasColumnName("position").HasMaxLength(70);
                 entity.Property(e => e.Shift).HasColumnName("shift").HasMaxLength(40);
-
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnName("createdAt")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("GETDATE()")
+                    .ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<EppDetail>(entity =>
