@@ -26,26 +26,25 @@ namespace API.Controllers
         public async Task<IActionResult> GetMonths()
         {
             var months = await _unitOfWork
-                        .Repository<Epp>()
-                        .Query()
-                        .Where(e => e.CreatedAt.HasValue)
-                        .Select(e => new
-                        {
-                            Year = e.CreatedAt!.Value.Year,
-                            Month = e.CreatedAt.Value.Month,
-                        })
-                        .Distinct()
-                        .OrderByDescending(x => x.Year)
-                        .ThenByDescending(x => x.Month)
-                        .AsNoTracking()
-                        .ToListAsync();
+                .Repository<Epp>()
+                .Query()
+                .Select(e => new
+                {
+                    Year = e.CreatedAt.Year,
+                    Month = e.CreatedAt.Month
+                })
+                .Distinct()
+                .OrderByDescending(x => x.Year)
+                .ThenByDescending(x => x.Month)
+                .AsNoTracking()
+                .ToListAsync();
 
             var result = months.Select(e => new
             {
                 Year = e.Year,
                 Month = e.Month,
                 MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(e.Month),
-                Description = $"{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(e.Month)}{e.Year}"
+                Description = $"{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(e.Month)} {e.Year}"
             });
 
             return Ok(result);
