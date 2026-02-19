@@ -16,18 +16,13 @@ namespace Application.Dtos
 
         public string Shift { get; set; } = null!;
 
-        public int RequestedQuantity { get; set; }
-
         public bool DeliveryEPPPrevious { get; set; }
-
-
-        public int EppTypeId { get; set; }
-
-        public int SizeId { get; set; }
 
         public int ReasonRequestId { get; set; }
 
         public int PreviousConditionId { get; set; }
+
+        public List<EppDetailDto> Details { get; set; } = new();
 
     }
 }
