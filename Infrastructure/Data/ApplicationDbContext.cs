@@ -14,6 +14,8 @@ namespace Infrastructure.Data
 
         public DbSet<Epp> Epps { get; set; }
 
+        public DbSet<EppDetail> EppDetails { get; set; }
+
         public DbSet<EppType> EppTypes { get; set; }
 
         public DbSet<Size> Sizes { get; set; }
@@ -39,10 +41,30 @@ namespace Infrastructure.Data
                 entity.Property(e => e.Position).HasColumnName("position").HasMaxLength(70);
                 entity.Property(e => e.Shift).HasColumnName("shift").HasMaxLength(40);
 
-                entity.HasOne(d => d.EppType)
-                    .WithMany(p => p.Epps)
-                    .HasForeignKey(d => d.EppTypeId);
             });
+
+            modelBuilder.Entity<EppDetail>(entity =>
+            {
+                entity.ToTable("EppDetail");
+
+                entity.Property(e => e.RequestedQuantity)
+                    .HasColumnName("requestedQuantity");
+
+                entity.HasOne(d => d.Epp)
+                    .WithMany(p => p.EppDetails)
+                    .HasForeignKey(d => d.EppId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(d => d.EppType)
+                    .WithMany(p => p.EppDetails)
+                    .HasForeignKey(d => d.EppTypeId);
+
+                entity.HasOne(d => d.Size)
+                    .WithMany(p => p.EppDetails)
+                    .HasForeignKey(d => d.SizeId)
+                    .IsRequired(false);
+            });
+
 
             modelBuilder.Entity<Store>(entity =>
             {
