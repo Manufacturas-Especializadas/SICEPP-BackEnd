@@ -77,13 +77,11 @@ namespace API.Controllers
                         x.Position,
                         x.Shift,
                         Status = x.Store.ApplicationStatus!.nameStatus ?? "Pendiente",
-                        EppType = x.EppType.NameType,
-                        Size = x.Size.NameSize,
-                        x.RequestedQuantity,
                         ReasonRequest = x.ReasonRequest.NameReason,
                         PreviousCondition = x.PreviousCondition.NameCondition,
                         x.DeliveryEPPPrevious,
-                        x.createdAt
+                        ItemsCount = x.EppDetails.Count(),
+                        x.CreatedAt
                     })
                     .AsNoTracking()
                     .ToListAsync();

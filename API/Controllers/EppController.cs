@@ -47,14 +47,18 @@ namespace API.Controllers
                             Area = x.Area,
                             Position = x.Position,
                             Shift = x.Shift,
-                            RequestedQuantity = x.RequestedQuantity,
                             DeliveryEPPPrevious = x.DeliveryEPPPrevious,
-                            CreatedAt = x.createdAt,
+                            CreatedAt = x.CreatedAt,
 
-                            EppType = x.EppType.NameType,
-                            Size = x.Size.NameSize,
                             ReasonRequest = x.ReasonRequest.NameReason,
                             PreviousCondition = x.PreviousCondition.NameCondition,
+
+                            Details = x.EppDetails.Select(d => new DetailResponseDto
+                            {
+                                EppType = d.EppType.NameType,
+                                Size = d.Size != null ? d.Size.NameSize : null!,
+                                RequestedQuantity = d.RequestedQuantity
+                            }).ToList(),
 
                             Store = x.Store == null ? null : new StoreDetailDto
                             {
@@ -78,26 +82,35 @@ namespace API.Controllers
         [Route("Create")]
         public async Task<IActionResult> Create(EppDto request)
         {
+            if (request.Details == null || !request.Details.Any())
+                return BadRequest("Debe agregar al menos un EPP.");
+
             var newEpp = new Epp
             {
                 Name = request.Name,
                 Area = request.Area,
                 Position = request.Position,
                 Shift = request.Shift,
-                RequestedQuantity = request.RequestedQuantity,
                 DeliveryEPPPrevious = request.DeliveryEPPPrevious,
-                EppTypeId = request.EppTypeId,
-                SizeId = request.SizeId,
                 ReasonRequestId = request.ReasonRequestId,
                 PreviousConditionId = request.PreviousConditionId,
-                createdAt = DateTime.Now
+                CreatedAt = DateTime.Now
             };
 
-            await _unitOfWork.Repository<Epp>().AddAsync(newEpp);
+            foreach (var detail in request.Details)
+            {
+                newEpp.EppDetails.Add(new EppDetail
+                {
+                    EppTypeId = detail.EppTypeId,
+                    SizeId = detail.SizeId,
+                    RequestedQuantity = detail.RequestedQuantity
+                });
+            }
 
+            await _unitOfWork.Repository<Epp>().AddAsync(newEpp);
             await _unitOfWork.SaveAsync();
 
-            return Ok(newEpp);
+            return Ok(new { message = "Solicitud creada correctamente" });
         }
     }
 }
