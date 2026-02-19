@@ -18,19 +18,15 @@ namespace Application.Dtos
 
         public string Shift { get; set; }
 
-        public int RequestedQuantity { get; set; }
-
         public bool DeliveryEPPPrevious { get; set; }
 
         public DateTime? CreatedAt { get; set; }
 
-        public string EppType { get; set; }
-
-        public string Size { get; set; }
-
         public string ReasonRequest { get; set; }
 
         public string PreviousCondition { get; set; }
+
+        public List<DetailResponseDto> Details { get; set; } = new();
 
         public StoreDetailDto? Store { get; set; }
     }
