@@ -25,7 +25,7 @@ namespace Core.Entities
 
         public int PreviousConditionId { get; set; }
 
-        public DateTime? CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public virtual ICollection<EppDetail> EppDetails { get; set; } = new List<EppDetail>();
 
