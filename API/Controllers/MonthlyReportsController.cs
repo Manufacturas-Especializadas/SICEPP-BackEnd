@@ -28,11 +28,11 @@ namespace API.Controllers
             var months = await _unitOfWork
                         .Repository<Epp>()
                         .Query()
-                        .Where(e => e.createdAt.HasValue)
+                        .Where(e => e.CreatedAt.HasValue)
                         .Select(e => new
                         {
-                            Year = e.createdAt.Value.Year,
-                            Month = e.createdAt.Value.Month,
+                            Year = e.CreatedAt!.Value.Year,
+                            Month = e.CreatedAt.Value.Month,
                         })
                         .Distinct()
                         .OrderByDescending(x => x.Year)
