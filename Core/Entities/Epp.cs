@@ -19,30 +19,20 @@ namespace Core.Entities
 
         public string Shift { get; set; } = null!;
 
-        public int RequestedQuantity { get; set; }
-
         public bool DeliveryEPPPrevious { get; set; }
-
-
-        public int EppTypeId { get; set; }
-
-        public int SizeId { get; set; }
 
         public int ReasonRequestId { get; set; }
 
         public int PreviousConditionId { get; set; }
 
-        public DateTime? createdAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
-
-        public virtual EppType EppType { get; set; } = null!;
-
-        public virtual Size Size { get; set; } = null!;
+        public virtual ICollection<EppDetail> EppDetails { get; set; } = new List<EppDetail>();
 
         public virtual ReasonRequest ReasonRequest { get; set; } = null!;
 
         public virtual PreviousCondition PreviousCondition { get; set; } = null!;
 
-        public Store Store { get; set; }
+        public Store? Store { get; set; }
     }
 }
