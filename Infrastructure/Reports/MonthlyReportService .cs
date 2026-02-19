@@ -23,15 +23,13 @@ namespace Infrastructure.Reports
             var data = await _unitOfWork
                         .Repository<Epp>()
                         .Query()
-                        .Include(e => e.EppType)
-                        .Include(e => e.Size)
                         .Include(e => e.ReasonRequest)
                         .Include(e => e.PreviousCondition)
                         .Include(e => e.Store)
                             .ThenInclude(s => s.ApplicationStatus)
-                        .Where(e => e.createdAt.HasValue &&
-                                e.createdAt.Value.Year == dto.Year &&
-                                e.createdAt.Value.Month == dto.Month)
+                        .Where(e => e.CreatedAt.HasValue &&
+                                e.CreatedAt.Value.Year == dto.Year &&
+                                e.CreatedAt.Value.Month == dto.Month)
                         .AsNoTracking()
                         .ToListAsync();
 
@@ -75,13 +73,10 @@ namespace Infrastructure.Reports
                 worksheet.Cell(row, 1).Value = item.Name;
                 worksheet.Cell(row, 2).Value = item.Area;
                 worksheet.Cell(row, 3).Value = item.Position;
-                worksheet.Cell(row, 4).Value = item.EppType?.NameType ?? "N/A";
-                worksheet.Cell(row, 5).Value = item.Size?.NameSize ?? "N/A";
-                worksheet.Cell(row, 6).Value = item.RequestedQuantity;
                 worksheet.Cell(row, 7).Value = item.ReasonRequest?.NameReason ?? "N/A";
                 worksheet.Cell(row, 8).Value = item.PreviousCondition?.NameCondition ?? "N/A";
                 worksheet.Cell(row, 9).Value = item.Store?.ApplicationStatus?.nameStatus ?? "Pendiente";
-                worksheet.Cell(row, 10).Value = item.createdAt?.ToString("dd/MM/yyyy");
+                worksheet.Cell(row, 10).Value = item.CreatedAt?.ToString("dd/MM/yyyy");
 
                 row++;
             }
