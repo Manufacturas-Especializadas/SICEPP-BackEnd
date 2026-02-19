@@ -4,6 +4,7 @@ using Core.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace API.Controllers
 {
@@ -94,7 +95,6 @@ namespace API.Controllers
                 DeliveryEPPPrevious = request.DeliveryEPPPrevious,
                 ReasonRequestId = request.ReasonRequestId,
                 PreviousConditionId = request.PreviousConditionId,
-                CreatedAt = DateTime.Now
             };
 
             foreach (var detail in request.Details)
